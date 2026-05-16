@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "201494341026",
+    "project_id": "belajarsholat-skripsi",
+    "storage_bucket": "belajarsholat-skripsi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201494341026:android:5c1329480c6cb1da5e7efb",
+        "android_client_info": {
+          "package_name": "com.example.smartsholat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX1rqCQVCzHH--7-REwGVQzC2ggM9Rd14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201494341026:android:2d77b23f804de2d65e7efb",
+        "android_client_info": {
+          "package_name": "com.skripsi.belajarshalat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX1rqCQVCzHH--7-REwGVQzC2ggM9Rd14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201494341026:android:e3a9cf8640e986c45e7efb",
+        "android_client_info": {
+          "package_name": "com.slbntm.belajarsholatcompose"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX1rqCQVCzHH--7-REwGVQzC2ggM9Rd14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
