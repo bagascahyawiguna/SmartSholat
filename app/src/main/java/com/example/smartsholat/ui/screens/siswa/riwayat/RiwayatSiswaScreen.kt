@@ -161,6 +161,26 @@ fun RiwayatSiswaContent(
     }
 }
 
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Composable
+private fun RiwayatSiswaContentPreview() {
+    RiwayatSiswaContent(
+        riwayatList = listOf(
+            RiwayatItem(
+                id = "1", namaSholat = "Sholat Subuh", tanggal = "07 Juni 2026",
+                durasiMillis = 95000, TotalGerakanGagal = 0, GerakanGagal = ""
+            ),
+            RiwayatItem(
+                id = "2", namaSholat = "Sholat Dzuhur", tanggal = "06 Juni 2026",
+                durasiMillis = 180000, TotalGerakanGagal = 2,
+                GerakanGagal = "Rukuk - posisi punggung kurang lurus, Sujud - posisi tangan salah"
+            )
+        ),
+        isLoading = false,
+        onItemClick = {}
+    )
+}
+
 @Composable
 fun RiwayatCard(item: RiwayatItem, onClick: () -> Unit) {
     val minutes = TimeUnit.MILLISECONDS.toMinutes(item.durasiMillis)

@@ -136,3 +136,12 @@ fun PilihSholatListContent(
         }
     }
 }
+
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Composable
+private fun PilihSholatListContentPreview() {
+    PilihSholatListContent(
+        onSholatSelect = {},
+        onBack = {}
+    )
+}

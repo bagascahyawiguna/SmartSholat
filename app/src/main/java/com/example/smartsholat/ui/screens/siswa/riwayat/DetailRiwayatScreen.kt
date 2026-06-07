@@ -236,3 +236,19 @@ private fun InfoRow(icon: androidx.compose.ui.graphics.vector.ImageVector, label
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, device = androidx.compose.ui.tooling.preview.Devices.PIXEL_4)
+@Composable
+private fun DetailRiwayatScreenPreview() {
+    DetailRiwayatScreen(
+        riwayat = RiwayatItem(
+            id = "1",
+            namaSholat = "Sholat Dzuhur",
+            tanggal = "07 Juni 2026, 12:30",
+            durasiMillis = 185000,
+            TotalGerakanGagal = 3,
+            GerakanGagal = "Rakaat 1\n1. Rukuk - posisi punggung kurang lurus\n2. Sujud - posisi tangan salah\nRakaat 2\n3. I'tidal - tidak tegak sempurna"
+        ),
+        onBackClick = {}
+    )
+}

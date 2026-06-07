@@ -137,7 +137,7 @@ fun ProfilGuruScreen(onLogoutClick: () -> Unit) {
                         textAlign = TextAlign.Justify
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Versi: 1.0.0", fontSize = 11.sp, color = Color.Gray)
+                    Text(text = "Versi: 2.0.0", fontSize = 11.sp, color = Color.Gray)
                 }
             }
 

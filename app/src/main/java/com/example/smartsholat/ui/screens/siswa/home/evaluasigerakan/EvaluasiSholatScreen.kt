@@ -149,3 +149,13 @@ fun EvaluasiSholatScreen(onBackClick: () -> Unit) {
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, device = androidx.compose.ui.tooling.preview.Devices.PIXEL_4)
+@Composable
+private fun EvaluasiSholatScreenPreview() {
+    // Preview menampilkan state awal: layar pemilihan jenis sholat
+    PilihSholatListContent(
+        onSholatSelect = {},
+        onBack = {}
+    )
+}

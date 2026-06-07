@@ -51,3 +51,9 @@ fun BelajarSholatScreen(onBackClick: () -> Unit) {
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, device = androidx.compose.ui.tooling.preview.Devices.PIXEL_4)
+@Composable
+private fun BelajarSholatScreenPreview() {
+    BelajarSholatScreen(onBackClick = {})
+}

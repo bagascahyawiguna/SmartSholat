@@ -49,7 +49,7 @@ fun SplashScreen(
         }
     }
 
-    // Menggunakan Box dengan gradasi hijau agar tampilan lebih premium
+    // Menggunakan Box dengan gradasi hijau
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -103,22 +103,23 @@ fun SplashScreen(
                 color = Color.White.copy(alpha = 0.8f)
             )
         }
-//        // --- FOOTER (Opsional) ---
-//        Text(
-//            text = "v1.0",
-//            modifier = Modifier
-//                .align(Alignment.BottomCenter)
-//                .padding(bottom = 32.dp),
-//            color = Color.White.copy(alpha = 0.5f),
-//            fontSize = 12.sp
-//        )
+        Image(
+            painter = painterResource(id = R.drawable.slbxfkom_v2),
+            contentDescription = "Logo SLB X FKOM",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp)
+                .height(80.dp),
+            contentScale = ContentScale.Fit
+        )
     }
 }
 
 @Preview(
     showBackground = true,
-    device = Devices.PIXEL_4, // Anda bisa menggantinya dengan PIXEL_4_XL atau lainnya
-    showSystemUi = true,      // Menampilkan status bar atas dan tombol navigasi bawah
+    device = Devices.PIXEL_4,
+    showSystemUi = true,
     name = "Splash Screen Preview"
 )
 @Composable

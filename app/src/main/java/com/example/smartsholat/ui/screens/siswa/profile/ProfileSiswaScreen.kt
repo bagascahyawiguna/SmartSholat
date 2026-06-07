@@ -125,7 +125,7 @@ fun ProfilSiswaContent(
                     Spacer(modifier = Modifier.height(12.dp))
                     Text("Aplikasi Pembelajaran Interaktif dan Evaluasi Gerakan Sholat menggunakan AI untuk memfasilitasi kemandirian siswa disabilitas.", fontSize = 13.sp, lineHeight = 20.sp, color = Color.DarkGray, textAlign = TextAlign.Justify)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Versi: 1.0.0", fontSize = 11.sp, color = Color.Gray)
+                    Text(text = "Versi: 2.0.0", fontSize = 11.sp, color = Color.Gray)
                 }
             }
 

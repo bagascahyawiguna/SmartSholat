@@ -196,7 +196,7 @@ fun SiswaCard(siswa: DataSiswa, onClick: () -> Unit) {
 @Composable
 fun DaftarSiswaContentPreview() {
     val dummySiswa = listOf(
-        DataSiswa(id = "1", nama = "Budi Santoso", nis = "2023001", kelas = "Kelas A (Tunawicara)"),
+        DataSiswa(id = "1", nama = "Bagas", nis = "2023001", kelas = "Kelas A (Tunawicara)"),
         DataSiswa(id = "2", nama = "Ahmad Maulana", nis = "2023002", kelas = "Kelas A (Tunawicara)"),
         DataSiswa(id = "3", nama = "Siti Aisyah", nis = "2023003", kelas = "Kelas A (Tunawicara)")
     )

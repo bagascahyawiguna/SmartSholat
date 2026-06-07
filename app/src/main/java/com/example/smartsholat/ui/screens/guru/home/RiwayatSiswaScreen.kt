@@ -369,7 +369,7 @@ private fun RiwayatSiswaContentPreview() {
     )
     Surface {
         RiwayatSiswaContent(
-            namaSiswaTerpilih = "Ahmad Fauzi",
+            namaSiswaTerpilih = "Bagas",
             isRiwayatLoading  = false,
             daftarRiwayat     = dummy,
             onBackClick       = {},

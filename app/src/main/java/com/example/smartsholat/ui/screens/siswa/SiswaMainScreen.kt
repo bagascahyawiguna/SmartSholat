@@ -32,6 +32,8 @@ import com.example.smartsholat.ui.screens.siswa.profile.ProfilSiswaScreen
 import com.example.smartsholat.ui.screens.siswa.riwayat.DetailRiwayatScreen
 import com.example.smartsholat.ui.screens.siswa.riwayat.RiwayatItem
 import com.example.smartsholat.ui.screens.siswa.riwayat.RiwayatSiswaScreen
+import com.example.smartsholat.ui.screens.siswa.modul.DetailModulDinamisScreen
+import com.example.smartsholat.ui.screens.siswa.modul.ModulLainnyaScreen
 import com.example.smartsholat.utils.SessionManager
 import androidx.compose.foundation.layout.WindowInsets
 
@@ -59,7 +61,9 @@ fun SiswaMainScreen(onLogoutClick: () -> Unit) {
     val shouldShowBottomBar = currentRoute?.let { route ->
         !route.startsWith(Screen.BelajarSholat.route) &&
                 !route.startsWith("evaluasi_sholat_flow") &&
-                !route.startsWith("detail_riwayat")
+                !route.startsWith("detail_riwayat") &&
+                !route.startsWith("modul_lainnya_siswa") &&
+                !route.startsWith("detail_modul_dinamis")
     } ?: true
 
     Scaffold(
@@ -131,7 +135,8 @@ fun SiswaMainScreen(onLogoutClick: () -> Unit) {
                 HomeSiswaScreen(
                     sessionManager = sessionManager,
                     onBelajarClick = { navController.navigate(Screen.BelajarSholat.route) },
-                    onEvaluasiClick = { navController.navigate("evaluasi_sholat_flow") }
+                    onEvaluasiClick = { navController.navigate("evaluasi_sholat_flow") },
+                    onModulLainnyaClick = { navController.navigate("modul_lainnya_siswa") }
                 )
             }
 
@@ -175,6 +180,24 @@ fun SiswaMainScreen(onLogoutClick: () -> Unit) {
                 ProfilSiswaScreen(
                     sessionManager = sessionManager,
                     onLogoutClick = onLogoutClick
+                )
+            }
+
+            // 7. MODUL LAINNYA (DAFTAR MODUL SISWA)
+            composable("modul_lainnya_siswa") {
+                ModulLainnyaScreen(
+                    onBackClick = { navController.popBackStack() },
+                    onModulClick = { moduleId ->
+                        navController.navigate("detail_modul_dinamis/$moduleId")
+                    }
+                )
+            }
+
+            // 8. DETAIL MODUL DINAMIS (STEPPER)
+            composable("detail_modul_dinamis/{moduleId}") { backStackEntry ->
+                DetailModulDinamisScreen(
+                    moduleId = backStackEntry.arguments?.getString("moduleId") ?: "",
+                    onBackClick = { navController.popBackStack() }
                 )
             }
         }

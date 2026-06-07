@@ -134,3 +134,15 @@ fun ResultEvaluasiScreen(
         Spacer(modifier = Modifier.height(16.dp))
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, device = androidx.compose.ui.tooling.preview.Devices.PIXEL_4)
+@Composable
+private fun ResultEvaluasiScreenPreview() {
+    ResultEvaluasiScreen(
+        namaSholat = "Subuh",
+        durasiMillis = 125000L,
+        totalGagal = 2,
+        gerakanGagal = "1. Rukuk - posisi punggung kurang lurus\n2. Sujud - posisi tangan salah",
+        onFinish = {}
+    )
+}

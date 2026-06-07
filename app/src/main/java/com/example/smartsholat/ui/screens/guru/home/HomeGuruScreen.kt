@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AssignmentTurnedIn
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.MeetingRoom
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
@@ -34,7 +35,8 @@ import com.example.smartsholat.ui.screens.guru.KelasInfo
 @Composable
 fun HomeGuruScreen(
     viewModel: GuruViewModel,
-    onKelasClick: (String) -> Unit
+    onKelasClick: (String) -> Unit,
+    onTambahModulClick: () -> Unit = {}
 ) {
     LaunchedEffect(Unit) {
         viewModel.fetchDashboardData()
@@ -46,7 +48,8 @@ fun HomeGuruScreen(
         totalSiswa     = viewModel.totalSiswa,
         totalKelas     = viewModel.totalKelas,
         daftarKelas    = viewModel.daftarKelas,
-        onKelasClick   = onKelasClick
+        onKelasClick   = onKelasClick,
+        onTambahModulClick = onTambahModulClick
     )
 }
 
@@ -58,7 +61,8 @@ fun HomeGuruContent(
     totalSiswa    : Int,
     totalKelas    : Int,
     daftarKelas   : List<KelasInfo>,
-    onKelasClick  : (String) -> Unit
+    onKelasClick  : (String) -> Unit,
+    onTambahModulClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -149,6 +153,51 @@ fun HomeGuruContent(
                             iconTint = Color(0xFFE65100),
                             modifier = Modifier.weight(1f)
                         )
+                    }
+                }
+
+                // ===== CARD TAMBAH MODUL AJAR =====
+                item {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onTambahModulClick() },
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Surface(
+                                shape = RoundedCornerShape(12.dp),
+                                color = Color(0xFFE8F5E9),
+                                modifier = Modifier.size(48.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.MenuBook,
+                                    contentDescription = null,
+                                    tint = Color(0xFF388E3C),
+                                    modifier = Modifier.padding(12.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Column {
+                                Text(
+                                    text = "Tambah Modul Ajar",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp
+                                )
+                                Text(
+                                    text = "Buat materi belajar untuk siswa",
+                                    fontSize = 12.sp,
+                                    color = Color.Gray
+                                )
+                            }
+                        }
                     }
                 }
 

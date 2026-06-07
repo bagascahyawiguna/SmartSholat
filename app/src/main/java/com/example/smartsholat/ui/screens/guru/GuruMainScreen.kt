@@ -32,7 +32,10 @@ import com.example.smartsholat.ui.screens.guru.home.DaftarSiswaScreen
 import com.example.smartsholat.ui.screens.guru.home.DetailRiwayatGuruScreen
 import com.example.smartsholat.ui.screens.guru.home.HomeGuruScreen
 import com.example.smartsholat.ui.screens.guru.home.RiwayatSiswaScreen
+import com.example.smartsholat.ui.screens.guru.modul.InputModulScreen
+import com.example.smartsholat.ui.screens.guru.modul.TambahModulAjarScreen
 import com.example.smartsholat.ui.screens.guru.profile.ProfilGuruScreen
+import com.example.smartsholat.ui.screens.siswa.modul.DetailModulDinamisScreen
 
 data class BottomNavItem(
     val title: String,
@@ -59,7 +62,10 @@ fun GuruMainScreen(
     val hideBottomBarRoutes = listOf(
         Screen.DaftarSiswa.route,
         Screen.RiwayatSiswaGuru.route,
-        "detail_riwayat_guru/{riwayatId}" // PERBAIKAN: Sembunyikan bar di layar detail
+        "detail_riwayat_guru/{riwayatId}", // PERBAIKAN: Sembunyikan bar di layar detail
+        "tambah_modul_ajar",
+        "input_modul?moduleId={moduleId}",
+        "detail_modul_dinamis/{moduleId}"
     )
 
     val shouldShowBottomBar = currentRoute !in hideBottomBarRoutes
@@ -123,6 +129,9 @@ fun GuruMainScreen(
                     viewModel = guruViewModel,
                     onKelasClick = { kelas ->
                         bottomNavController.navigate(Screen.DaftarSiswa.createRoute(kelas))
+                    },
+                    onTambahModulClick = {
+                        bottomNavController.navigate("tambah_modul_ajar")
                     }
                 )
             }
@@ -183,6 +192,43 @@ fun GuruMainScreen(
             composable(Screen.ProfilGuru.route) {
                 ProfilGuruScreen(
                     onLogoutClick = onLogoutClick
+                )
+            }
+
+            // ===== ROUTE BARU: MODUL AJAR =====
+            composable("tambah_modul_ajar") {
+                TambahModulAjarScreen(
+                    onBackClick = { bottomNavController.popBackStack() },
+                    onAddClick = { bottomNavController.navigate("input_modul") },
+                    onEditClick = { moduleId ->
+                        bottomNavController.navigate("input_modul?moduleId=$moduleId")
+                    },
+                    onModulClick = { moduleId ->
+                        bottomNavController.navigate("detail_modul_dinamis/$moduleId")
+                    }
+                )
+            }
+
+            composable(
+                route = "input_modul?moduleId={moduleId}",
+                arguments = listOf(navArgument("moduleId") {
+                    nullable = true
+                    defaultValue = null
+                })
+            ) { backStackEntry ->
+                InputModulScreen(
+                    moduleId = backStackEntry.arguments?.getString("moduleId"),
+                    onBackClick = { bottomNavController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = "detail_modul_dinamis/{moduleId}",
+                arguments = listOf(navArgument("moduleId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                DetailModulDinamisScreen(
+                    moduleId = backStackEntry.arguments?.getString("moduleId") ?: "",
+                    onBackClick = { bottomNavController.popBackStack() }
                 )
             }
         }

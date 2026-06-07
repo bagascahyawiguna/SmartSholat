@@ -4,12 +4,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.automirrored.filled.LibraryBooks
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -39,7 +42,8 @@ import com.example.smartsholat.R
 fun HomeSiswaScreen(
     sessionManager: SessionManager,
     onBelajarClick: () -> Unit,
-    onEvaluasiClick: () -> Unit
+    onEvaluasiClick: () -> Unit,
+    onModulLainnyaClick: () -> Unit = {}
 ) {
     val db = FirebaseFirestore.getInstance()
     val userId = sessionManager.getUserId() ?: ""
@@ -75,7 +79,8 @@ fun HomeSiswaScreen(
         namaPanggilan = namaPanggilan,
         completedPrayersCount = completedPrayersCount,
         onBelajarClick = onBelajarClick,
-        onEvaluasiClick = onEvaluasiClick
+        onEvaluasiClick = onEvaluasiClick,
+        onModulLainnyaClick = onModulLainnyaClick
     )
 }
 
@@ -88,7 +93,8 @@ fun HomeSiswaContent(
     namaPanggilan: String,
     completedPrayersCount: Int,
     onBelajarClick: () -> Unit,
-    onEvaluasiClick: () -> Unit
+    onEvaluasiClick: () -> Unit,
+    onModulLainnyaClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -138,10 +144,10 @@ fun HomeSiswaContent(
                     .offset(y = (-100).dp)                  // ← sembunyikan 100 dari 150 = 2/3 tersembunyi
             )
 
-            // LAYER 2: Konten kartu di depan
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp, vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -192,10 +198,18 @@ fun HomeSiswaContent(
 
                 MenuUtamaCard(
                     title = "Evaluasi Gerakan",
-                    subtitle = "Gunakan kamera untuk menilai ketepatan gerakan.",
+                    subtitle = "Evaluasi Gerakan Sholat Berbasis AI.",
                     icon = Icons.Default.CameraAlt,
                     iconColor = Color(0xFFE64A19),
                     onClick = onEvaluasiClick
+                )
+
+                MenuUtamaCard(
+                    title = "Modul Lainnya",
+                    subtitle = "Materi tambahan dari guru",
+                    icon = Icons.AutoMirrored.Filled.LibraryBooks,
+                    iconColor = Color(0xFF1565C0),
+                    onClick = onModulLainnyaClick
                 )
             }
         }

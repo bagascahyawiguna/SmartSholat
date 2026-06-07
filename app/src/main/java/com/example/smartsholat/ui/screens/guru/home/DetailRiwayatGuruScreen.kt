@@ -354,7 +354,7 @@ private fun DetailRiwayatGuruPreview_AdaGagal() {
                 TotalGerakanGagal = 3,
                 GerakanGagal      = "Rakaat 1:\n1. Ruku'\n2. Sujud Pertama\nRakaat 2:\n3. Tasyahud Akhir"
             ),
-            namaSiswa   = "Ahmad Fauzi",
+            namaSiswa   = "Bagas",
             onBackClick = {}
         )
     }
@@ -374,7 +374,7 @@ private fun DetailRiwayatGuruPreview_Sempurna() {
                 TotalGerakanGagal = 0,
                 GerakanGagal      = ""
             ),
-            namaSiswa   = "Budi Santoso",
+            namaSiswa   = "Bagas",
             onBackClick = {}
         )
     }
