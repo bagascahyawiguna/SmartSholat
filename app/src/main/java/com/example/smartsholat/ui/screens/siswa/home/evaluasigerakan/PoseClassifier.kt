@@ -26,6 +26,10 @@ object PoseClassifier {
 
     private var interpreter: Interpreter? = null
 
+    /** Confidence score dari hasil klasifikasi terakhir (0f–1f) */
+    var lastConfidence: Float = 0f
+        private set
+
     fun initModel(context: Context) {
         if (interpreter == null) {
             try {
@@ -83,6 +87,8 @@ object PoseClassifier {
                 maxIdx = i
             }
         }
+
+        lastConfidence = maxProb
 
         if (maxProb < 0.60f) return PoseLabel.TRANSISI
 

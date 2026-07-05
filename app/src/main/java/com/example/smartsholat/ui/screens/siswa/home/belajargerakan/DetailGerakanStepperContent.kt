@@ -1,5 +1,6 @@
 package com.example.smartsholat.ui.screens.siswa.home.belajargerakan
 
+import android.speech.tts.TextToSpeech
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -14,12 +15,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.VolumeOff
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,8 +47,30 @@ fun DetailGerakanStepperContent(
 
     val scrollState = rememberScrollState()
 
-    // Reset scroll ke atas setiap kali langkah berubah
+    // ── STATE TTS ──
+    val context = LocalContext.current
+    val tts = remember { mutableStateOf<TextToSpeech?>(null) }
+    var isTtsReady by remember { mutableStateOf(false) }
+    var isSpeaking by remember { mutableStateOf(false) }
+
+    DisposableEffect(context) {
+        val ttsInstance = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                tts.value?.language = Locale("id", "ID")
+                isTtsReady = true
+            }
+        }
+        tts.value = ttsInstance
+        onDispose {
+            ttsInstance.stop()
+            ttsInstance.shutdown()
+        }
+    }
+
+    // Reset scroll ke atas setiap kali langkah berubah dan hentikan TTS
     LaunchedEffect(currentStep) {
+        tts.value?.stop()
+        isSpeaking = false
         scrollState.animateScrollTo(0, animationSpec = tween(durationMillis = 300))
     }
 
@@ -66,6 +93,7 @@ fun DetailGerakanStepperContent(
                 )
             )
         },
+
         bottomBar = {
             // Surface dengan navigationBarsPadding agar tidak tertutup tombol navigasi HP
             Surface(
@@ -78,7 +106,8 @@ fun DetailGerakanStepperContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     val isFirstStep = currentStep == 0
 
@@ -94,6 +123,46 @@ fun DetailGerakanStepperContent(
                         )
                     ) {
                         Text("Sebelumnya", fontWeight = FontWeight.Bold)
+                    }
+
+                    // Tombol Text-to-Speech
+                    IconButton(
+                        onClick = {
+                            if (isTtsReady) {
+                                val engine = tts.value
+                                if (engine != null) {
+                                    if (engine.isSpeaking) {
+                                        engine.stop()
+                                        isSpeaking = false
+                                    } else {
+                                        val teksLatin = currentGerakan.bacaanLatin
+                                        val teksArti = currentGerakan.arti
+                                        val teksBacaan = "$teksLatin. Artinya: $teksArti"
+                                        engine.speak(teksBacaan, TextToSpeech.QUEUE_FLUSH, null, "tts_bacaan")
+                                        isSpeaking = true
+                                        engine.setOnUtteranceProgressListener(object : android.speech.tts.UtteranceProgressListener() {
+                                            override fun onStart(utteranceId: String?) {}
+                                            override fun onDone(utteranceId: String?) { isSpeaking = false }
+                                            @Deprecated("Deprecated in Java")
+                                            override fun onError(utteranceId: String?) { isSpeaking = false }
+                                        })
+                                    }
+                                }
+                            }
+                        },
+                        enabled = isTtsReady,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(
+                                color = if (isSpeaking) Color(0xFF2E7D32) else Color(0xFF388E3C),
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                    ) {
+                        Icon(
+                            imageVector = if (isSpeaking) Icons.Filled.VolumeOff else Icons.Filled.VolumeUp,
+                            contentDescription = "Dengarkan Bacaan Latin dan Arti",
+                            tint = Color.White
+                        )
                     }
 
                     Button(

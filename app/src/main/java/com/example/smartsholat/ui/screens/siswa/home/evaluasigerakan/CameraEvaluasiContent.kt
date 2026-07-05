@@ -126,6 +126,7 @@ fun CameraEvaluasiContent(
     var holdProgress       by remember { mutableStateOf(0f) }
     var showSuksesAnim     by remember { mutableStateOf(false) }
     var currentDetectedPose by remember { mutableStateOf(PoseLabel.TIDAK_TERDETEKSI) }
+    var currentConfidenceScore by remember { mutableStateOf(0f) }
 
     // State Timer & Gagal -> DISET 60 DETIK (1 MENIT)
     var timeLeftMs by remember { mutableLongStateOf(60000L) }
@@ -278,6 +279,12 @@ fun CameraEvaluasiContent(
     val onPoseDetected: (PoseLabel) -> Unit = { label ->
         if (!showPanduan) {
             currentDetectedPose = label
+            // Ambil confidence score dari PoseClassifier jika ada keypoint terdeteksi
+            currentConfidenceScore = if (label != PoseLabel.TIDAK_TERDETEKSI) {
+                PoseClassifier.lastConfidence
+            } else {
+                0f
+            }
 
             val now = System.currentTimeMillis()
             val deltaTime = if (lastFrameTimeMs == 0L) 0L else (now - lastFrameTimeMs)
@@ -492,7 +499,8 @@ fun CameraEvaluasiContent(
                     isCorrectPose       = isCorrectPose,
                     holdProgress        = holdProgress,
                     showSuksesAnim      = showSuksesAnim,
-                    timeLeftMs          = timeLeftMs
+                    timeLeftMs          = timeLeftMs,
+                    confidenceScore     = currentConfidenceScore
                 )
             }
         }
@@ -507,7 +515,8 @@ private fun PanelGerakanMinimalis(
     isCorrectPose: Boolean,
     holdProgress: Float,
     showSuksesAnim: Boolean,
-    timeLeftMs: Long
+    timeLeftMs: Long,
+    confidenceScore: Float = 0f
 ) {
     val scale by animateFloatAsState(
         targetValue = if (showSuksesAnim) 1.05f else 1f,
@@ -614,6 +623,22 @@ private fun PanelGerakanMinimalis(
                             },
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    // Tampilkan confidence score jika ada keypoint terdeteksi
+                    if (confidenceScore > 0f && currentDetectedPose != PoseLabel.TIDAK_TERDETEKSI) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Confidence: ${"%.1f".format(confidenceScore * 100)}%",
+                            color = when {
+                                confidenceScore >= 0.85f -> ColorSukses
+                                confidenceScore >= 0.70f -> ColorAktif
+                                confidenceScore >= 0.60f -> ColorWarning
+                                else -> ColorOrange
+                            },
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
 
